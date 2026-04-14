@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGIS - Nex Global Integrated Services</title>
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Montserrat:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold-light: #fbe69b;
+            --gold-mid: #d4af37;
+            --gold-dark: #aa771c;
+            --bg-dark: #050d1f;
+            --bg-light: #18335c;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            background: #0b1d3a;
+            background: radial-gradient(circle at center, var(--bg-light) 0%, var(--bg-dark) 80%);
+            color: #ffffff;
+            /* Subtle grid overlay to complement particles */
+            background-image: 
+                radial-gradient(circle at center, var(--bg-light) 0%, var(--bg-dark) 80%),
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-blend-mode: overlay;
+        }
+
+        /* Particle Canvas */
+        #networkCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            /* Allows clicking through canvas to the elements behind it */
+            pointer-events: none;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* Badge */
+        .badge {
+            position: absolute;
+            top: 40px;
+            right: 60px;
+            width: 80px;
+            background: linear-gradient(135deg, var(--gold-mid) 0%, var(--gold-dark) 100%);
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            z-index: 20;
+            animation: float 4s ease-in-out infinite;
+        }
+        .badge::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            border-left: 40px solid var(--gold-dark);
+            border-right: 40px solid var(--gold-dark);
+            border-bottom: 20px solid transparent;
+        }
+        .badge .star {
+            font-size: 26px;
+            color: #111;
+            margin-bottom: 4px;
+            line-height: 1;
+        }
+        .badge .title {
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            color: #111;
+        }
+        .badge .sub {
+            display: inline-block;
+            background: #111;
+            color: var(--gold-light);
+            font-size: 9px;
+            padding: 3px 6px;
+            margin-top: 6px;
+            border-radius: 3px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Logo Shield */
+        .logo-wrapper {
+            margin-bottom: -5px;
+            animation: glow 3s infinite alternate;
+        }
+        .shield-logo {
+            width: 115px;
+            height: auto;
+            max-height: 140px;
+            filter: drop-shadow(0 15px 20px rgba(0,0,0,0.6));
+        }
+
+        /* Typography */
+        .brand-name {
+            font-family: 'Michroma', sans-serif;
+            font-size: 45px; /* Smaller font size */
+            font-weight: 900;
+            -webkit-text-stroke: 1px #fbe69b; /* Slightly reduced stroke size to match smaller font */
+            margin: 0;
+            line-height: 1.1;
+            background: linear-gradient(to bottom, #fffadb 0%, #dfc067 40%, #a2751f 80%, #fffadb 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 8px;
+            filter: drop-shadow(0 15px 15px rgba(0,0,0,0.7));
+        }
+
+        .brand-subtitle {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--gold-light);
+            letter-spacing: 6px;
+            margin-top: 5px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            text-transform: uppercase;
+        }
+
+        .divider {
+            width: 100%;
+            max-width: 900px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--gold-mid), transparent);
+            margin: 45px 0 35px;
+            opacity: 0.6;
+        }
+
+        .mission-text {
+            font-size: 24px;
+            font-weight: 400;
+            letter-spacing: 2.5px;
+            line-height: 1.6;
+            max-width: 950px;
+            text-shadow: 0 4px 15px rgba(0,0,0,1);
+            color: #f8f9fa;
+        }
+
+        /* Countdown */
+        .countdown {
+            display: flex;
+            gap: 25px;
+            margin-top: 55px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .time-block {
+            background: rgba(11, 29, 58, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            padding: 22px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            min-width: 110px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(212, 175, 55, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: default;
+        }
+        .time-block:hover {
+            transform: translateY(-12px) scale(1.05);
+            border-color: rgba(212, 175, 55, 0.7);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 25px rgba(212, 175, 55, 0.2);
+        }
+        .time-block .time {
+            display: block;
+            font-size: 50px;
+            font-weight: 800;
+            background: linear-gradient(to bottom, #ffffff, #cccccc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));
+            line-height: 1;
+        }
+        .time-block .label {
+            display: block;
+            font-size: 14px;
+            color: var(--gold-mid);
+            letter-spacing: 3px;
+            margin-top: 12px;
+            font-weight: 700;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes glow {
+            0% { filter: drop-shadow(0 0 15px rgba(212,175,55,0.25)); }
+            100% { filter: drop-shadow(0 0 40px rgba(212,175,55,0.6)); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .brand-name { font-size: 38px; }
+            .mission-text { font-size: 20px; }
+            .countdown { gap: 20px; }
+        }
+        @media (max-width: 768px) {
+            .brand-name { font-size: 30px; letter-spacing: 4px; }
+            .brand-subtitle { font-size: 14px; letter-spacing: 4px; }
+            .mission-text { font-size: 16px; padding: 0 15px; }
+            .shield-logo { width: 95px; height: auto; max-height: unset; }
+            .time-block { min-width: 90px; padding: 18px; }
+            .time-block .time { font-size: 40px; }
+            .time-block .label { font-size: 12px; }
+            .badge { top: 20px; right: 20px; transform: scale(0.85); transform-origin: top right; }
+        }
+        @media (max-width: 480px) {
+            body { background-size: 100% 100%, 20px 20px, 20px 20px; }
+            .brand-name { font-size: 24px; letter-spacing: 2px; }
+            .brand-subtitle { font-size: 11px; letter-spacing: 2.5px; }
+            .mission-text { font-size: 13px; letter-spacing: 1px; padding: 0 10px; }
+            .shield-logo { width: 75px; height: auto; }
+            .countdown { gap: 10px; margin-top: 35px; }
+            .time-block { min-width: 65px; padding: 12px; border-radius: 12px; }
+            .time-block .time { font-size: 28px; }
+            .time-block .label { font-size: 9px; margin-top: 8px; letter-spacing: 1.5px; }
+            .badge { top: 10px; right: 10px; transform: scale(0.7); }
+            .divider { margin: 30px 0 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dynamic Network Canvas -->
+    <canvas id="networkCanvas"></canvas>
+
+    <!-- Content -->
+    <div class="container">
+        <!-- Floating Badge -->
+        <div class="badge">
+            <div class="star">★</div>
+            <div class="title">GM-CERT</div>
+            <div class="sub">90% Verified</div>
+        </div>
+
+        <!-- Logo Shield -->
+        <div class="logo-wrapper">
+            <img src="2000.png" alt="NGIS Logo" class="shield-logo" style="object-fit: contain;">
+        </div>
+
+        <h1 class="brand-name">NGIS</h1>
+        <div class="brand-subtitle">NEX GLOBAL INTEGRATED SERVICES</div>
+        
+        <div class="divider"></div>
+        
+        <div class="mission-text">
+            THE GLOBAL BENCHMARK FOR SAFETY, QUALITY,<br>AND FINANCIAL INNOVATION
+        </div>
+
+        <div class="countdown" id="countdown">
+            <div class="time-block">
+                <span class="time" id="days">00</span>
+                <span class="label">DAYS</span>
+            </div>
+            <div class="time-block">
+                <span class="time" id="hours">00</span>
+                <span class="label">HOURS</span>
+            </div>
+            <div class="time-block">
+                <span class="time" id="minutes">00</span>
+                <span class="label">MINUTES</span>
+            </div>
+            <div class="time-block">
+                <span class="time" id="seconds">00</span>
+                <span class="label">SECONDS</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // --------------------------------------------------------
+        // 1) COUNTDOWN LOGIC
+        // --------------------------------------------------------
+        // Target date set to 30 days from current date
+        const targetDate = new Date();
+        targetDate.setDate(targetDate.getDate() + 30);
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate.getTime() - now;
+
+            if (distance < 0) {
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // --------------------------------------------------------
+        // 2) PARTICLES/NETWORK CANVAS LOGIC
+        // --------------------------------------------------------
+        const canvas = document.getElementById('networkCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Allow particles to interact closely with the mouse position invisibly
+        let mouse = { x: null, y: null };
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                // Move towards top-right generally to simulate dynamic flow
+                const speed = (Math.random() * 0.5) + 0.1;
+                const angle = Math.random() * Math.PI * 2;
+                this.velocityX = Math.cos(angle) * speed;
+                this.velocityY = Math.sin(angle) * speed;
+                this.radius = Math.random() * 2 + 0.5;
+                
+                // Color palette mixing goldish and light-blue/white
+                const colors = ['rgba(212, 175, 55, 0.8)', 'rgba(120, 160, 255, 0.6)', 'rgba(255, 255, 255, 0.4)'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                // Extract rgb base for line coloring
+                this.rgbBase = this.color.includes('212') ? '212,175,55' : (this.color.includes('120') ? '120,160,255' : '255,255,255');
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 5;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+            }
+
+            update() {
+                // Bounce off edges
+                if (this.x < 0 || this.x > canvas.width) this.velocityX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.velocityY *= -1;
+
+                this.x += this.velocityX;
+                this.y += this.velocityY;
+                
+                this.draw();
+            }
+        }
+
+        let particlesArray = [];
+        
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particlesArray = [];
+            // Quantity adapts to screen size
+            const count = Math.min((canvas.width * canvas.height) / 8000, 150);
+            for (let i = 0; i < count; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function drawLines() {
+            for (let i = 0; i < particlesArray.length; i++) {
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    // Connect particles close to each other
+                    if (distance < 120) {
+                        const opacity = 1 - (distance / 120);
+                        // Mix the line color
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(${particlesArray[i].rgbBase}, ${opacity * 0.4})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+
+                // Interaction with mouse
+                if (mouse.x && mouse.y) {
+                    const dxm = particlesArray[i].x - mouse.x;
+                    const dym = particlesArray[i].y - mouse.y;
+                    const distanceM = Math.sqrt(dxm * dxm + dym * dym);
+                    if (distanceM < 150) {
+                        const opacityM = 1 - (distanceM / 150);
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(212,175,55, ${opacityM * 0.5})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particlesArray.forEach(p => p.update());
+            drawLines();
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.addEventListener('resize', initCanvas);
+        
+        initCanvas();
+        animateCanvas();
+
+    </script>
+</body>
+</html>
