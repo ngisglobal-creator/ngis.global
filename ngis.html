@@ -302,13 +302,13 @@ GLOBAL DIGITAL platform for DIRECT FACTORY SOURCING, INTERNATIONAL TRADE, and su
         // --------------------------------------------------------
         // 1) COUNTDOWN LOGIC
         // --------------------------------------------------------
-        // Target date set to 30 days from current date
-        const targetDate = new Date();
-        targetDate.setDate(targetDate.getDate() + 30);
+        // Target date set to May 13, 2026 (28 days from current time)
+        // This is fixed so it counts down in real-time for all visitors.
+        const targetDate = new Date("May 13, 2026 14:22:38").getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
-            const distance = targetDate.getTime() - now;
+            const distance = targetDate - now;
 
             if (distance < 0) {
                 document.getElementById('days').textContent = '00';
