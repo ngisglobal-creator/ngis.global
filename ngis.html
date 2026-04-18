@@ -24,7 +24,6 @@
             background: #0b1d3a;
             background: radial-gradient(circle at center, var(--bg-light) 0%, var(--bg-dark) 80%);
             color: #ffffff;
-            /* Subtle grid overlay to complement particles */
             background-image: 
                 radial-gradient(circle at center, var(--bg-light) 0%, var(--bg-dark) 80%),
                 linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -36,16 +35,15 @@
         /* Particle Canvas */
         #networkCanvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: 1;
-            /* Allows clicking through canvas to the elements behind it */
             pointer-events: none;
         }
 
-        /* Main Container */
+        /* =============================================
+           MAIN CONTAINER
+        ============================================= */
         .container {
             position: relative;
             z-index: 10;
@@ -54,46 +52,36 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 60px 24px;
             text-align: center;
             box-sizing: border-box;
         }
 
-        /* Badge */
+        /* =============================================
+           BADGE
+        ============================================= */
         .badge {
             position: absolute;
-            top: 40px;
-            right: 60px;
+            top: 36px; right: 52px;
             width: 80px;
             background: linear-gradient(135deg, var(--gold-mid) 0%, var(--gold-dark) 100%);
-            padding: 15px 0;
+            padding: 14px 0;
             text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.5);
             z-index: 20;
             animation: float 4s ease-in-out infinite;
         }
         .badge::after {
             content: '';
             position: absolute;
-            bottom: -20px;
-            left: 0;
+            bottom: -20px; left: 0;
             border-left: 40px solid var(--gold-dark);
             border-right: 40px solid var(--gold-dark);
             border-bottom: 20px solid transparent;
         }
-        .badge .star {
-            font-size: 26px;
-            color: #111;
-            margin-bottom: 4px;
-            line-height: 1;
-        }
-        .badge .title {
-            font-size: 14px;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 800;
-            color: #111;
-        }
-        .badge .sub {
+        .badge .star  { font-size: 24px; color: #111; margin-bottom: 4px; line-height: 1; }
+        .badge .title { font-size: 13px; font-family: 'Montserrat', sans-serif; font-weight: 800; color: #111; }
+        .badge .sub   {
             display: inline-block;
             background: #111;
             color: var(--gold-light);
@@ -106,146 +94,222 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
 
-        /* Logo Shield */
+        /* =============================================
+           LOGO
+        ============================================= */
         .logo-wrapper {
-            margin-bottom: -5px;
+            margin-bottom: 20px;
             animation: glow 3s infinite alternate;
         }
         .shield-logo {
-            width: 115px;
+            width: 120px;
             height: auto;
-            max-height: 140px;
-            filter: drop-shadow(0 15px 20px rgba(0,0,0,0.6));
+            max-height: 145px;
+            filter: drop-shadow(0 16px 22px rgba(0,0,0,0.6));
         }
 
-        /* Typography */
+        /* =============================================
+           BRAND NAME — "NGIS"
+        ============================================= */
         .brand-name {
             font-family: 'Michroma', sans-serif;
-            font-size: 45px; /* Smaller font size */
+            font-size: 52px;
             font-weight: 900;
-            -webkit-text-stroke: 1px #fbe69b; /* Slightly reduced stroke size to match smaller font */
-            margin: 0;
-            line-height: 1.1;
+            -webkit-text-stroke: 1px rgba(251,230,155,0.6);
+            margin: 0 0 10px;
+            line-height: 1;
             background: linear-gradient(to bottom, #fffadb 0%, #dfc067 40%, #a2751f 80%, #fffadb 100%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: 8px;
-            filter: drop-shadow(0 15px 15px rgba(0,0,0,0.7));
+            letter-spacing: 14px;
+            filter: drop-shadow(0 12px 18px rgba(0,0,0,0.7));
         }
 
+        /* =============================================
+           BRAND SUBTITLE
+        ============================================= */
         .brand-subtitle {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
             color: var(--gold-light);
-            letter-spacing: 6px;
-            margin-top: 5px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            letter-spacing: 7px;
+            margin: 0;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.5);
             text-transform: uppercase;
         }
 
+        /* =============================================
+           DIVIDER
+        ============================================= */
         .divider {
             width: 100%;
-            max-width: 900px;
-            height: 2px;
+            max-width: 820px;
+            height: 1px;
             background: linear-gradient(to right, transparent, var(--gold-mid), transparent);
-            margin: 45px 0 35px;
-            opacity: 0.6;
+            margin: 36px 0 32px;
+            opacity: 0.55;
         }
 
+        /* =============================================
+           MISSION TEXT
+        ============================================= */
         .mission-text {
-            font-size: 24px;
+            font-size: 15px;
             font-weight: 400;
-            letter-spacing: 2.5px;
-            line-height: 1.6;
-            max-width: 950px;
-            text-shadow: 0 4px 15px rgba(0,0,0,1);
-            color: #f8f9fa;
+            letter-spacing: 2px;
+            line-height: 1.85;
+            max-width: 820px;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.9);
+            color: rgba(240,240,255,0.88);
         }
 
-        /* Countdown */
+        /* =============================================
+           COMING SOON TITLE
+        ============================================= */
+        .coming-soon {
+            font-family: 'Michroma', sans-serif;
+            font-size: 52px;
+            font-weight: 900;
+            letter-spacing: 16px;
+            text-transform: uppercase;
+            margin: 48px 0 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fffadb 0%, #fbe69b 30%, #d4af37 60%, #aa771c 80%, #fbe69b 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-stroke: 0.5px rgba(251,230,155,0.25);
+            filter: drop-shadow(0 0 28px rgba(212,175,55,0.45)) drop-shadow(0 6px 18px rgba(0,0,0,0.8));
+            position: relative;
+            animation: coming-soon-pulse 3s ease-in-out infinite alternate;
+        }
+        .coming-soon::before,
+        .coming-soon::after {
+            content: '';
+            display: block;
+            height: 1px;
+            width: 55%;
+            margin: 0 auto;
+            background: linear-gradient(to right, transparent, var(--gold-mid), transparent);
+            opacity: 0.65;
+        }
+        .coming-soon::before { margin-bottom: 16px; }
+        .coming-soon::after  { margin-top: 16px; }
+
+        /* =============================================
+           COUNTDOWN
+        ============================================= */
         .countdown {
             display: flex;
-            gap: 25px;
-            margin-top: 55px;
+            gap: 22px;
+            margin-top: 32px;
             flex-wrap: wrap;
             justify-content: center;
         }
         .time-block {
             background: rgba(11, 29, 58, 0.5);
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            padding: 22px;
+            border: 1px solid rgba(212, 175, 55, 0.22);
+            padding: 24px 20px;
             border-radius: 16px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             min-width: 110px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 20px rgba(212, 175, 55, 0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.45), inset 0 0 22px rgba(212,175,55,0.07);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: default;
         }
         .time-block:hover {
-            transform: translateY(-12px) scale(1.05);
-            border-color: rgba(212, 175, 55, 0.7);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 25px rgba(212, 175, 55, 0.2);
+            transform: translateY(-10px) scale(1.04);
+            border-color: rgba(212, 175, 55, 0.65);
+            box-shadow: 0 22px 44px rgba(0,0,0,0.55), inset 0 0 28px rgba(212,175,55,0.18);
         }
         .time-block .time {
             display: block;
-            font-size: 50px;
+            font-size: 48px;
             font-weight: 800;
             background: linear-gradient(to bottom, #ffffff, #cccccc);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.55));
             line-height: 1;
         }
         .time-block .label {
             display: block;
-            font-size: 14px;
+            font-size: 11px;
             color: var(--gold-mid);
-            letter-spacing: 3px;
+            letter-spacing: 3.5px;
             margin-top: 12px;
             font-weight: 700;
+            text-transform: uppercase;
         }
 
-        /* Animations */
+        /* =============================================
+           KEYFRAME ANIMATIONS
+        ============================================= */
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50%       { transform: translateY(-14px); }
         }
         @keyframes glow {
-            0% { filter: drop-shadow(0 0 15px rgba(212,175,55,0.25)); }
-            100% { filter: drop-shadow(0 0 40px rgba(212,175,55,0.6)); }
+            0%   { filter: drop-shadow(0 0 12px rgba(212,175,55,0.2)); }
+            100% { filter: drop-shadow(0 0 38px rgba(212,175,55,0.55)); }
+        }
+        @keyframes coming-soon-pulse {
+            0%   { filter: drop-shadow(0 0 18px rgba(212,175,55,0.28)) drop-shadow(0 6px 18px rgba(0,0,0,0.8)); }
+            100% { filter: drop-shadow(0 0 48px rgba(212,175,55,0.7))  drop-shadow(0 6px 28px rgba(0,0,0,0.9)); }
         }
 
-        /* Responsive Design */
+        /* =============================================
+           RESPONSIVE ≤ 1024px
+        ============================================= */
         @media (max-width: 1024px) {
-            .brand-name { font-size: 38px; }
-            .mission-text { font-size: 20px; }
-            .countdown { gap: 20px; }
+            .brand-name       { font-size: 44px; letter-spacing: 12px; }
+            .brand-subtitle   { font-size: 12px; letter-spacing: 6px; }
+            .coming-soon      { font-size: 44px; letter-spacing: 13px; }
+            .mission-text     { font-size: 14px; }
+            .time-block .time { font-size: 42px; }
         }
+
+        /* =============================================
+           RESPONSIVE ≤ 768px
+        ============================================= */
         @media (max-width: 768px) {
-            .brand-name { font-size: 30px; letter-spacing: 4px; }
-            .brand-subtitle { font-size: 14px; letter-spacing: 4px; }
-            .mission-text { font-size: 16px; padding: 0 15px; }
-            .shield-logo { width: 95px; height: auto; max-height: unset; }
-            .time-block { min-width: 90px; padding: 18px; }
-            .time-block .time { font-size: 40px; }
-            .time-block .label { font-size: 12px; }
-            .badge { top: 20px; right: 20px; transform: scale(0.85); transform-origin: top right; }
+            .container         { padding: 70px 20px 50px; }
+            .shield-logo       { width: 96px; max-height: unset; }
+            .brand-name        { font-size: 34px; letter-spacing: 8px; }
+            .brand-subtitle    { font-size: 10px; letter-spacing: 5px; }
+            .divider           { margin: 28px 0 24px; max-width: 90%; }
+            .mission-text      { font-size: 13px; letter-spacing: 1.5px; padding: 0 12px; }
+            .coming-soon       { font-size: 32px; letter-spacing: 9px; margin-top: 36px; }
+            .coming-soon::before, .coming-soon::after { width: 70%; }
+            .countdown         { gap: 15px; margin-top: 26px; }
+            .time-block        { min-width: 90px; padding: 18px 14px; }
+            .time-block .time  { font-size: 36px; }
+            .time-block .label { font-size: 10px; letter-spacing: 2.5px; margin-top: 10px; }
+            .badge             { top: 18px; right: 18px; transform: scale(0.82); transform-origin: top right; }
         }
+
+        /* =============================================
+           RESPONSIVE ≤ 480px
+        ============================================= */
         @media (max-width: 480px) {
-            body { background-size: 100% 100%, 20px 20px, 20px 20px; }
-            .brand-name { font-size: 24px; letter-spacing: 2px; }
-            .brand-subtitle { font-size: 11px; letter-spacing: 2.5px; }
-            .mission-text { font-size: 13px; letter-spacing: 1px; padding: 0 10px; }
-            .shield-logo { width: 75px; height: auto; }
-            .countdown { gap: 10px; margin-top: 35px; }
-            .time-block { min-width: 65px; padding: 12px; border-radius: 12px; }
-            .time-block .time { font-size: 28px; }
-            .time-block .label { font-size: 9px; margin-top: 8px; letter-spacing: 1.5px; }
-            .badge { top: 10px; right: 10px; transform: scale(0.7); }
-            .divider { margin: 30px 0 25px; }
+            body               { background-size: 100% 100%, 20px 20px, 20px 20px; }
+            .container         { padding: 70px 14px 44px; }
+            .logo-wrapper      { margin-bottom: 14px; }
+            .shield-logo       { width: 76px; }
+            .brand-name        { font-size: 26px; letter-spacing: 5px; }
+            .brand-subtitle    { font-size: 9px;  letter-spacing: 3px; }
+            .divider           { margin: 22px 0 18px; }
+            .mission-text      { font-size: 11px; letter-spacing: 1px; line-height: 1.75; padding: 0 8px; }
+            .coming-soon       { font-size: 22px; letter-spacing: 6px; margin-top: 28px; }
+            .coming-soon::before, .coming-soon::after { width: 80%; }
+            .countdown         { gap: 10px; margin-top: 22px; }
+            .time-block        { min-width: 64px; padding: 13px 10px; border-radius: 12px; }
+            .time-block .time  { font-size: 28px; }
+            .time-block .label { font-size: 8px;  letter-spacing: 1.5px; margin-top: 8px; }
+            .badge             { top: 10px; right: 10px; transform: scale(0.68); transform-origin: top right; }
         }
     </style>
 </head>
@@ -276,6 +340,8 @@
         <div class="mission-text">
 GLOBAL DIGITAL platform for DIRECT FACTORY SOURCING, INTERNATIONAL TRADE, and supply chain management. we connect you to VERIFIED manufacturers worldwide with FULL TRANSPARENCY, LOWER COSTS, and smart order control.
         </div>
+
+        <h2 class="coming-soon">COMING SOON</h2>
 
         <div class="countdown" id="countdown">
             <div class="time-block">
